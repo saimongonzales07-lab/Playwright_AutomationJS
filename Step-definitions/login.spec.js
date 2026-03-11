@@ -1,4 +1,4 @@
-const { test, expect } = require ('@playwright/test');
+const { expect } = require ('@playwright/test');
 const { Given, When, Then } = require('@cucumber/cucumber');
 const { enterUsername, enterPassword, clickLogin } = require('../helpers/loginHelpers');
 const { sleep } = require ('../helpers/loginHelpers');
@@ -7,7 +7,7 @@ const { CustomWorld } = require ('../support/world');
 const { fs } = require ('fs');
 const { path } = require ('path');    
 
-Given('I am on the login page', async function () {
+Given('I open the login page', async function () {
   await this.page.goto('https://www.saucedemo.com/');
 });
 
