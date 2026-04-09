@@ -1,0 +1,64 @@
+[
+  {
+    "description": "",
+    "elements": [
+      {
+        "description": "",
+        "id": "login-functionality;valid-user-login",
+        "keyword": "Scenario",
+        "line": 5,
+        "name": "Valid user login",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "line": 6,
+            "name": "I open the login page",
+            "match": {
+              "location": "steps\\login.steps.js:5"
+            },
+            "result": {
+              "status": "passed",
+              "duration": 1108424099
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "line": 7,
+            "name": "I login with valid credentials",
+            "match": {
+              "location": "steps\\login.steps.js:12"
+            },
+            "result": {
+              "status": "failed",
+              "duration": 5017178100,
+              "error_message": "Error: function timed out, ensure the promise resolves within 5000 milliseconds\n    at Timeout.<anonymous> (C:\\Users\\Administrator\\Documents\\Playwright_AutomationJS\\node_modules\\@cucumber\\cucumber\\lib\\time.js:64:20)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "line": 8,
+            "name": "I should see the dashboard",
+            "match": {
+              "location": "steps\\login.steps.js:23"
+            },
+            "result": {
+              "status": "skipped",
+              "duration": 0
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "login-functionality",
+    "line": 3,
+    "keyword": "Feature",
+    "name": "Login functionality",
+    "tags": [],
+    "uri": "features\\login.feature"
+  }
+]
