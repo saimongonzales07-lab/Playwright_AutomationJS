@@ -86,4 +86,5 @@ module.exports = defineConfig({
     headless: false,
     screenshot: 'only-on-failure',
   },
+  reporter: [['html', { open: 'always' }]],
 });

@@ -1,26 +1,27 @@
-import { test, expect } from '@playwright/test';
-import { LoginPage } from '../pages/LoginPage';
-
-
 class LoginPage {
-  constructor(page) {
-    this.page = page;
+    constructor(page) {
+        console.log('LoginPage constructor called with page:', !!page);
+        this.page = page;
 
-    // Locators
-    this.usernameInput = '#username';
-    this.passwordInput = '#password';
-    this.loginButton = '#login';
-  }
+        this.usernameInput = page.locator('#user-name');
+        this.passwordInput = page.locator('#password');
+        this.loginButton = page.locator('#login-button');
+        this.errorMessage = page.locator('.error-message');
+    }
 
-  async goto() {
-    await this.page.goto('https://example.com/login');
-  }
+    async goto() {
+        await this.page.goto('https://www.saucedemo.com/');
+    }
 
-  async login(username, password) {
-    await this.page.fill(this.usernameInput, username);
-    await this.page.fill(this.passwordInput, password);
-    await this.page.click(this.loginButton);
-  }
+    async login(username, password) {
+        await this.usernameInput.fill(username);
+        await this.passwordInput.fill(password);
+        await this.loginButton.click();
+    }
+
+    async getErrorMessage() {
+        return await this.errorMessage.textContent();
+    }
 }
 
-export { LoginPage };
+module.exports = LoginPage;

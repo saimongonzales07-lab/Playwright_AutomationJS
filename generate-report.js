@@ -1,9 +1,38 @@
-const reporter = require('cucumber-html-reporter');
+const report = require('multiple-cucumber-html-reporter');
+const fs = require('fs');
 
-reporter.generate({
-  theme: 'bootstrap',
-  jsonFile: 'report.json',
-  output: 'report.html',
-  reportSuiteAsScenarios: true,
-  launchReport: true,
+const timestamp = new Date()
+  .toISOString()
+  .replace(/[:.]/g, '-'); // safe folder name
+
+const reportPath = `playwright-report/html-report-${timestamp}`;
+
+// Create the report directory if it doesn't exist
+fs.mkdirSync(reportPath, { recursive: true });
+
+
+report.generate({
+  jsonDir: 'playwright-report',
+  reportPath: reportPath,
+  displayDuration: true,
+  displayReportTime: true,
+
+  metadata: {
+    browser: {
+      name: 'chrome',
+      version: 'latest'
+    },
+    platform: {
+      name: 'windows',
+      version: '10'
+    },
+    customData: {
+      title: 'Run Info',
+      data: [
+        { label: 'Project', value: 'Playwright Cucumber' },
+        { label: 'Environment', value: 'QA' },
+        { label: 'Executed By', value: 'Local Run' }
+      ]
+    }
+  }
 });

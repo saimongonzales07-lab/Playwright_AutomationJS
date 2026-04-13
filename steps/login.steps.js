@@ -1,31 +1,34 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
+const LoginPage = require('../pages/LoginPage');
 const { expect } = require('@playwright/test');
-const { chromium } = require('playwright');
+const { HighlightUtil } = require('../utils/highlight');
 const assert = require('assert');
 
 Given('I open the login page', async function () {
-  browser = await chromium.launch({ headless: false });
-  const context = await browser.newContext();
-  page = await context.newPage();
-  await page.goto('https://www.saucedemo.com/');
+  console.log('Given step: page created?', !!this.page);
+
+  this.loginPage = new LoginPage(this.page);
+  await this.loginPage.goto();
 });
 
 When('I login with valid credentials', async function () {
-  // await page.goto('https://www.saucedemo.com/');
-
-  // Fill in the username and password fields and click login.
-  await page.fill('input#user-name', 'standard_user');
-  await page.fill('input#password', 'secret_sauce');
-  await page.click('input#login-button');
-
-  // Expects the URL to contain intro.
-  await expect(page).toHaveTitle(/Swag Labs/);
+  await this.loginPage.login('standard_user', 'secret_sauce');
 });
-Then('I should see the Products page', async function () {
-  // Check if the Products page is displayed by verifying the presence of a specific element.
-  const productsTitle = await page.textContent('.title');
-  assert.strictEqual(productsTitle, 'Products');
 
-  // Close the browser after the test is done.
-  await browser.close();
+Then('I should see the Products page', async function () {
+  const productsTitle = await this.page.textContent('.title');
+  assert.strictEqual(productsTitle, 'Products');
+  const screenshot = await HighlightUtil.highlightAndScreenshot(this.page, this.page.locator('.title'));
+  await this.attach(screenshot, { mediaType: 'image/png' });
+});
+
+When('I login using invalid user using {string} and {string}', async function (username, password) {
+  await this.loginPage.login(username, password);
+});
+
+Then('I should see the Incorrect {string}', async function (errorMessage) {
+  const errorText = await this.page.textContent('[data-test="error"]');
+  assert.strictEqual(errorText, errorMessage);
+  const screenshot = await HighlightUtil.highlightAndScreenshot(this.page, this.page.locator('[data-test="error"]')); // to highlight specific element nasa utils folder
+  await this.attach(screenshot, { mediaType: 'image/png' });
 });
